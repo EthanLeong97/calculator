@@ -19,21 +19,28 @@
     margin-bottom: 10px;
     background-color: white;
 
-    display: flex;
+    /* display: flex;
     justify-content: end;
-    align-items: end;
+    align-items: end; */
 
-    /* position: relative; */
+    position: relative;
 }
 
 /* Use screen as container so we are free to move around and adjust padding */
 .screenText {
-    /* position: absolute;
+    position: absolute;
     bottom: 0;
-    right: 0; */
-    padding: 10px;
-    padding-right: 15px;
+    right: 0;
+    padding: 3px;
+    padding-right: 5px;
     font-size: larger;
+}
+
+.operation {
+    font-size: small;
+    position: absolute;
+    right: 0;
+    padding-right: 5px;
 }
 
 .buttons {

@@ -1,13 +1,27 @@
 // can make these into an object
 // take as list items?
-const add = (a, b) => a + b;
-const subtract = (a, b) => a - b;
-const multiply = (a, b) => a * b;
-// TODO decide how to deal with rounding
-const divide = (a, b) => a / b;
+function add(num1, num2) {
+    return +num1 + +num2
+}
+function subtract (num1, num2){
+    return +num1 - +num2
+}
+function multiply(num1, num2) {
+    return +num1 * +num2
+}
+function divide(num1, num2){
+    return +num1 / +num2
+}
+
+let a = 0
+let b = 0;
+let addB = false;
+let operation = '';
 
 const screen = document.querySelector('.screenText');
 screen.textContent = '';
+const screenOp = document.querySelector('.operation');
+screenOp.textContent = '';
 
 const one = document.querySelector('#one');
 one.addEventListener('click', event => inputNumber(event));
@@ -40,7 +54,7 @@ const minus = document.querySelector('#minus');
 minus.addEventListener('click', event => operate(event));
 
 const equal = document.querySelector('#equal');
-equal.addEventListener('click', event => calculate(event));
+equal.addEventListener('click', () => calculate());
 
 const ce = document.querySelector('#clear');
 ce.addEventListener('click', () => {
@@ -49,12 +63,10 @@ ce.addEventListener('click', () => {
     addB = false;
     operation = '';
     screen.textContent = 0;
+    screenOp.textContent = '';
 });
 
-let a = 0
-let b = 0;
-let addB = false;
-let operation = '';
+
 
 function inputNumber(event){
     input = +event.target.value;
@@ -69,35 +81,38 @@ function inputNumber(event){
 }
 
 function operate(event){
+    if (operation !== '') {
+        // only change operations when we have an empty value
+        return
+    }
     operation = event.target.value;
+    screenOp.textContent = operation;
     if (addB === false){
         // on press of any operation, start inputting values to b
         addB = true;
+        return
     }
-    else if (addB === true){
-        calculate(); //set a to computed value
-        screen.textContent = a;
-        b = 0; //reset b and keep adding to b
-    }
+    // issue earlier where there was a calculate call here that forced b to be 0- a+b = a. a*b=0.
 }
 
 function calculate(){
     switch (operation){
         case '+':
             a = add(a, b);
-            // operation = '';
             break;
         case '-':
             a = subtract(a, b);
-            // operation = '';
             break;
         case '*':
             a = multiply(a, b);
-            // operation = '';
             break;
         case '/':
             a = divide(a, b);
-            // operation = '';
             break;
     }
+    operation = '';
+    screenOp.textContent = '';
+    screen.textContent = a;
+    b = 0; //reset b and keep adding to b
 }
+
