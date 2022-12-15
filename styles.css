@@ -1,0 +1,81 @@
+/* add click animations using classes and transitions */
+
+.calculator {
+    display: flex;
+    flex-direction: column;
+    padding: 10px;
+    border: 3px ridge rgba(103, 148, 221, 0.386);
+    background-color: rgb(241, 251, 251);
+}
+
+.screen, .buttons, .lastRow, .calculator {
+    width: 300px;
+}
+
+
+.screen {
+    border: 2px inset gray;
+    height: 50px;
+    margin-bottom: 10px;
+    background-color: white;
+
+    display: flex;
+    justify-content: end;
+    align-items: end;
+
+    /* position: relative; */
+}
+
+/* Use screen as container so we are free to move around and adjust padding */
+.screenText {
+    /* position: absolute;
+    bottom: 0;
+    right: 0; */
+    padding: 10px;
+    padding-right: 15px;
+    font-size: larger;
+}
+
+.buttons {
+    display: grid;
+    /* calc((300px - 30px) / 4) */
+    padding-left: 2px;
+    grid-template-columns: repeat(4, 67.5px);
+    gap: 10px 10px;
+}
+
+/* make buttons bigger but need to remake sizes */
+button {
+    border: 1.5px outset gray;
+    background-color: rgb(239, 239, 239);
+    text-align: center;
+    text-justify: center;
+}
+
+.lastRow {
+    display: flex;
+    justify-content: space-between;
+}
+
+#zero {
+    /* size of two buttons + padding */
+    width: 145px;
+}
+
+#dot, #equal {
+    width: 67.5px;
+}
+
+#clear {
+    background-color: rgb(223, 70, 70);
+}
+
+
+button, .screen, .calculator{
+    border-radius: 3px;
+}
+
+/* could I have done this by using buttons, ignoring the numbers? */
+#posneg, #mod, #divide, #multiply, #plus, #minus, #equal {
+    background-color: rgb(208, 245, 233);
+}
