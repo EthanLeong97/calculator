@@ -6,94 +6,6 @@ const multiply = (a, b) => a * b;
 // TODO decide how to deal with rounding
 const divide = (a, b) => a / b;
 
-// function operate(a, b, operator) {
-//     if (operator === '+'){
-//         return add(a, b)
-//     }
-//     else if (operator === '-'){
-//         return subtract(a, b)
-//     }
-//     else if (operator === '*'){
-//         return multiply(a, b)
-//     }
-//     else if (operator === '/'){
-//         return divide(a, b)
-//     }
-// }
-
-function inputNumber(event){
-    input = event.target.value;
-
-    // test if number exceeded max input
-    if (a){
-        let test = a.toString();
-        if (test.length > 12) return false
-    }
-    if (b){
-        let test = a.toString();
-        if (test.length > 12) return false
-    }
-
-    if (addA){
-        // input for a
-        if (isNaN(a)){
-            a = input;
-            screen.textContent = a;
-        }
-        else {
-            a = a * 10 + +input;
-            screen.textContent = a;
-        }
-    }
-
-    else if (!addA){
-        if (isNaN(b)){
-            b = input;
-            screen.textContent = b;
-        }
-        else {
-            b = b * 10 + +input;
-            screen.textContent = b;
-        }
-    }
-}
-
-function operate(event){
-    sign = event.target.value;
-    // if pressing an operation and we do not yet have b
-    if (isNaN(b)){
-        addA = false
-    }
-    else {
-        switch (sign) {
-            case '+':
-                a = add(a, b);
-                break;
-            case '-':
-                a = subtract(a, b);
-                break;
-            case '*':
-                a = multiply(a, b);
-                break;
-            case '/':
-                a = divide(a, b);
-                break;
-        }
-        // a will continue to take the computed value and we just ask for b
-        screen.textContent = a;
-        b = 'empty';
-    }
-}
-
-// a, b be the inputs c is the calculated number
-// laters we show c but clear a and b
-let a = 'empty';
-let b = 'empty';
-
-
-// determine if we are working with a or b
-let addA = true;
-
 const screen = document.querySelector('.screenText');
 screen.textContent = '';
 
@@ -126,3 +38,66 @@ const plus = document.querySelector('#plus');
 plus.addEventListener('click', event => operate(event));
 const minus = document.querySelector('#minus');
 minus.addEventListener('click', event => operate(event));
+
+const equal = document.querySelector('#equal');
+equal.addEventListener('click', event => calculate(event));
+
+const ce = document.querySelector('#clear');
+ce.addEventListener('click', () => {
+    a = 0;
+    b = 0;
+    addB = false;
+    operation = '';
+    screen.textContent = 0;
+});
+
+let a = 0
+let b = 0;
+let addB = false;
+let operation = '';
+
+function inputNumber(event){
+    input = +event.target.value;
+    if (addB === false){ //note that !addB flips the value so first iteration would return true
+        a = +a * 10 + input;
+        screen.textContent = a;
+    }
+    else if (addB === true){
+        b = +b * 10 + input;
+        screen.textContent = b;
+    }
+}
+
+function operate(event){
+    operation = event.target.value;
+    if (addB === false){
+        // on press of any operation, start inputting values to b
+        addB = true;
+    }
+    else if (addB === true){
+        calculate(); //set a to computed value
+        screen.textContent = a;
+        b = 0; //reset b and keep adding to b
+    }
+}
+
+function calculate(){
+    switch (operation){
+        case '+':
+            a = add(a, b);
+            // operation = '';
+            break;
+        case '-':
+            a = subtract(a, b);
+            // operation = '';
+            break;
+        case '*':
+            a = multiply(a, b);
+            // operation = '';
+            break;
+        case '/':
+            a = divide(a, b);
+            // operation = '';
+            break;
+    }
+}
