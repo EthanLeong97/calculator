@@ -1,5 +1,4 @@
 // can make these into an object
-// take as list items?
 function add(num1, num2) {
     return +num1 + +num2
 }
@@ -10,10 +9,14 @@ function multiply(num1, num2) {
     return +num1 * +num2
 }
 function divide(num1, num2){
+    if (num2 === 0) return 'u thought'
     return +num1 / +num2
 }
+const mod = (num1, num2) => +num1 % +num2;
 
-let a = 0
+
+// can use a and b as their own arrays that get parsed out, one way to solve +/- and . and backspace
+let a = 0;
 let b = 0;
 let addB = false;
 let operation = '';
@@ -23,6 +26,7 @@ screen.textContent = '';
 const screenOp = document.querySelector('.operation');
 screenOp.textContent = '';
 
+// add keyboard support with help of the Javascript30 Drum video
 const one = document.querySelector('#one');
 one.addEventListener('click', event => inputNumber(event));
 const two = document.querySelector('#two');
@@ -53,6 +57,13 @@ plus.addEventListener('click', event => operate(event));
 const minus = document.querySelector('#minus');
 minus.addEventListener('click', event => operate(event));
 
+const modu = document.querySelector('#mod');
+modu.addEventListener('click', event => operate(event));
+const dot = document.querySelector('#dot');
+dot.addEventListener('click', () => toDo());
+const posNeg = document.querySelector('#posneg');
+posNeg.addEventListener('click', () => toDo());
+
 const equal = document.querySelector('#equal');
 equal.addEventListener('click', () => calculate());
 
@@ -67,9 +78,20 @@ ce.addEventListener('click', () => {
 });
 
 
+// value that checks if we did not enter operation before hitting a number 
+let didNotEnterOp = false;
 
 function inputNumber(event){
     input = +event.target.value;
+
+    if (operation === '' && didNotEnterOp){
+        // if user clicks on number before operation, reset values
+        addB = false
+        a = 0;
+        b = 0;
+        didNotEnterOp = false;
+    }
+
     if (addB === false){ //note that !addB flips the value so first iteration would return true
         a = +a * 10 + input;
         screen.textContent = a;
@@ -81,10 +103,9 @@ function inputNumber(event){
 }
 
 function operate(event){
-    if (operation !== '') {
-        // only change operations when we have an empty value
-        return
-    }
+    
+    if (operation !== '') return // only change operations when we have an empty value
+
     operation = event.target.value;
     screenOp.textContent = operation;
     if (addB === false){
@@ -92,7 +113,7 @@ function operate(event){
         addB = true;
         return
     }
-    // issue earlier where there was a calculate call here that forced b to be 0- a+b = a. a*b=0.
+    // issue earlier where there was a calculate call here that forced b = 0- a+b = a. a*b=0.
 }
 
 function calculate(){
@@ -109,10 +130,17 @@ function calculate(){
         case '/':
             a = divide(a, b);
             break;
+        case '%':
+            a = mod(a, b);
+            break;
     }
     operation = '';
     screenOp.textContent = '';
     screen.textContent = a;
     b = 0; //reset b and keep adding to b
+    didNotEnterOp = true;
 }
 
+function toDo(){
+    screenOp.textContent = 'TODO'
+}
